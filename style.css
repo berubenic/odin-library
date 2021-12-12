@@ -1,0 +1,45 @@
+h1 {
+  text-align: center;
+}
+span {
+  display: flex;
+  justify-content: center;
+  margin: 1em;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: auto;
+  justify-content: space-evenly;
+  align-items: stretch;
+}
+
+form label {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.4em;
+}
+
+form label input {
+  margin: 0.8em;
+}
+
+#new_book_form_container {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+#book_list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+#book_list li {
+  margin: 1em;
+}

@@ -88,7 +88,7 @@ function addDeleteButton(informationList, book) {
 
 // displays author info
 function addAuthorToList(property, listElement, informationList) {
-  text = `${property[0]}: ${property[1]}`;
+  text = `Author: ${property[1]}`;
   listElement.appendChild(document.createTextNode(text));
   informationList.appendChild(listElement);
 }
