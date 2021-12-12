@@ -239,6 +239,16 @@ function addNewBook() {
   myLibrary.push(book);
   // remove form
   document.getElementById("new_book_form_container").innerHTML = "";
+  // remove hide form button
+  let newBookButtonContainer = document.getElementById(
+    "new_book_button_container"
+  );
+  newBookButtonContainer.innerHTML = "";
+  // add new book button
+  let newBookButton = document.createElement("button");
+  newBookButton.setAttribute("id", "new_book_button");
+  newBookButtonContainer.appendChild(newBookButton);
+  newBookButton.appendChild(document.createTextNode("New Book"));
   return displayBooks(myLibrary);
 }
 
