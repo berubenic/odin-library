@@ -34,6 +34,7 @@ function displayBooks(books) {
   });
   addDeleteBookButtonListeners();
   addToggleReadButtonListeners();
+  addNewBookButtonListener();
 }
 
 // displays each books info (author, pages, read status)
@@ -195,6 +196,30 @@ function createNewBookForm() {
   form.appendChild(submit);
   // append to DOM
   document.getElementById("new_book_form_container").appendChild(form);
+  // remove new book button
+  let span = document.getElementById("new_book_button_container");
+  span.innerHTML = "";
+  // create hide form button
+  let hideButton = document.createElement("button");
+  hideButton.setAttribute("id", "hide_new_book_form");
+  hideButton.appendChild(document.createTextNode("Hide Form"));
+  span.appendChild(hideButton);
+
+  addHideFormButtonListener();
+}
+
+function hideNewBookForm() {
+  let formContainer = document.getElementById("new_book_form_container");
+  formContainer.innerHTML = "";
+  let newBookButton = document.createElement("button");
+  newBookButton.setAttribute("id", "new_book_button");
+  let newBookButtonContainer = document.getElementById(
+    "new_book_button_container"
+  );
+  newBookButtonContainer.innerHTML = "";
+  newBookButton.appendChild(document.createTextNode("New Book"));
+  newBookButtonContainer.appendChild(newBookButton);
+  addNewBookButtonListener();
 }
 
 // adds a book to myLibrary using form values
@@ -263,6 +288,13 @@ function toggleRead(bookIndex) {
   displayBooks(myLibrary);
 }
 
+// add listener to hide book form button
+function addHideFormButtonListener() {
+  document
+    .getElementById("hide_new_book_form")
+    .addEventListener("click", hideNewBookForm);
+}
+
 // add listener to all delete book buttons
 function addDeleteBookButtonListeners() {
   document.querySelectorAll(".delete-book-button").forEach((item) => {
@@ -283,12 +315,12 @@ function addToggleReadButtonListeners() {
   });
 }
 
-// DOM ready before displaying form
-docReady(function () {
+// add listener to add new book button
+function addNewBookButtonListener() {
   document
     .getElementById("new_book_button")
     .addEventListener("click", createNewBookForm);
-});
+}
 
 // DOM ready before displaying books
 docReady(function () {
