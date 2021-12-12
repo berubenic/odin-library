@@ -1,9 +1,11 @@
+// array that stores instances of Book
 let myLibrary = [
-  new Book("In Search of Lost Time", "Marcel Proust", 468, false),
+  new Book("In Search of Lost Time", "Marcel Proust", 468, true),
   new Book("Ulysses", "James Joyce", 736, false),
   new Book("Don Quixote", "Miguel de Cervantes", 1072, false),
 ];
 
+// Book constructor
 function Book(title, author, pages, isRead) {
   this.title = title;
   this.author = author;
@@ -11,6 +13,7 @@ function Book(title, author, pages, isRead) {
   this.isRead = isRead;
 }
 
+// display each Book
 function displayBooks(books) {
   const bookList = document.getElementById("book_list");
   // reset list
@@ -23,6 +26,7 @@ function displayBooks(books) {
   });
 }
 
+// displays each books info (author, pages, read status)
 function displayBookInformation(listElement, book) {
   const informationList = document.createElement("ul");
   listElement.appendChild(informationList);
@@ -46,12 +50,14 @@ function displayBookInformation(listElement, book) {
   });
 }
 
+// displays author info
 function addAuthorToList(property, listElement, informationList) {
   text = `${property[0]}: ${property[1]}`;
   listElement.appendChild(document.createTextNode(text));
   informationList.appendChild(listElement);
 }
 
+// displays #pages
 function addPagesToList(property, listElement, informationList) {
   numberOfPages = property[1].toString();
   text = `Number of pages: ${numberOfPages}`;
@@ -59,6 +65,7 @@ function addPagesToList(property, listElement, informationList) {
   informationList.appendChild(listElement);
 }
 
+// displays read status
 function addIsReadToList(property, listElement, informationList) {
   if (property[1] === true) {
     text = "This book has been read.";
@@ -69,25 +76,7 @@ function addIsReadToList(property, listElement, informationList) {
   informationList.appendChild(listElement);
 }
 
-function docReady(fn) {
-  // see if DOM is already available
-  if (
-    document.readyState === "complete" ||
-    document.readyState === "interactive"
-  ) {
-    // call on next available tick
-    setTimeout(fn, 1);
-  } else {
-    document.addEventListener("DOMContentLoaded", fn);
-  }
-}
-
-docReady(function () {
-  document
-    .getElementById("new_book_button")
-    .addEventListener("click", createNewBookForm);
-});
-
+// creates and displays form for creating new book
 function createNewBookForm() {
   // reset
   document.getElementById("new_book_form_container").innerHTML = "";
@@ -172,8 +161,8 @@ function createNewBookForm() {
   document.getElementById("new_book_form_container").appendChild(form);
 }
 
+// adds a book to myLibrary using form values
 function addNewBook() {
-  console.log("hi");
   // get title
   const title = document.getElementById("title").value;
   // get author
@@ -182,25 +171,17 @@ function addNewBook() {
   const numberOfPages = document.getElementById("number_of_pages").value;
   // get isRead
   const isReadValue = findCheckedRadio();
-
   const book = new Book(title, author, numberOfPages, isReadValue);
-
   if (title === "" || author === "" || numberOfPages === "") {
     return errorAddingNewBook();
   }
-
-  console.log(book);
   myLibrary.push(book);
   // remove form
   document.getElementById("new_book_form_container").innerHTML = "";
   return displayBooks(myLibrary);
 }
 
-function errorAddingNewBook() {
-  alert("Something is wrong with the form, please try again...");
-  return createNewBookForm();
-}
-
+// finds which radio button has been selected and returns value
 function findCheckedRadio() {
   let value = false;
   const elements = document.getElementsByName("isRead");
@@ -209,9 +190,38 @@ function findCheckedRadio() {
       value = element.value;
     }
   });
-  return value;
+  if (value === "true") {
+    return true;
+  } else return false;
 }
 
+// very basic form validation
+function errorAddingNewBook() {
+  alert("Something is wrong with the form, please try again...");
+  return createNewBookForm();
+}
+
+// see if DOM is already available
+function docReady(fn) {
+  if (
+    document.readyState === "complete" ||
+    document.readyState === "interactive"
+  ) {
+    // call on next available tick
+    setTimeout(fn, 1);
+  } else {
+    document.addEventListener("DOMContentLoaded", fn);
+  }
+}
+
+// DOM ready before displaying form
+docReady(function () {
+  document
+    .getElementById("new_book_button")
+    .addEventListener("click", createNewBookForm);
+});
+
+// DOM ready before displaying books
 docReady(function () {
   displayBooks(myLibrary);
 });
