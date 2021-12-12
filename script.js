@@ -13,6 +13,14 @@ function Book(title, author, pages, isRead) {
   this.isRead = isRead;
 }
 
+Book.prototype.toggleReadStatus = function () {
+  if (this.isRead === true) {
+    this.isRead = false;
+  } else {
+    this.isRead = true;
+  }
+};
+
 // display each Book
 function displayBooks(books) {
   const bookList = document.getElementById("book_list");
@@ -24,6 +32,8 @@ function displayBooks(books) {
     bookList.appendChild(listElement);
     displayBookInformation(listElement, book);
   });
+  addDeleteBookButtonListeners();
+  addToggleReadButtonListeners();
 }
 
 // displays each books info (author, pages, read status)
@@ -48,6 +58,32 @@ function displayBookInformation(listElement, book) {
         break;
     }
   });
+  addReadStatusToggleButton(informationList, book);
+  addDeleteButton(informationList, book);
+}
+
+// adds toggle read button to each book
+function addReadStatusToggleButton(informationList, book) {
+  let listElement = document.createElement("li");
+  let toggleButton = document.createElement("button");
+  const bookIndex = myLibrary.indexOf(book);
+  toggleButton.setAttribute("class", "toggle-read-button");
+  toggleButton.setAttribute("data-index-number", `${bookIndex}`);
+  toggleButton.appendChild(document.createTextNode("Toggle Read Status"));
+  informationList.appendChild(listElement);
+  listElement.appendChild(toggleButton);
+}
+
+// adds delete button to each Book
+function addDeleteButton(informationList, book) {
+  let listElement = document.createElement("li");
+  let deleteButton = document.createElement("button");
+  const bookIndex = myLibrary.indexOf(book);
+  deleteButton.setAttribute("class", "delete-book-button");
+  deleteButton.setAttribute("data-index-number", `${bookIndex}`);
+  deleteButton.appendChild(document.createTextNode("Delete Book"));
+  informationList.appendChild(listElement);
+  listElement.appendChild(deleteButton);
 }
 
 // displays author info
@@ -212,6 +248,39 @@ function docReady(fn) {
   } else {
     document.addEventListener("DOMContentLoaded", fn);
   }
+}
+
+// deletes book
+function deleteBook(bookIndex) {
+  myLibrary.splice(bookIndex, 1);
+  displayBooks(myLibrary);
+}
+
+// toggles read status
+function toggleRead(bookIndex) {
+  let book = myLibrary[bookIndex];
+  book.toggleReadStatus();
+  displayBooks(myLibrary);
+}
+
+// add listener to all delete book buttons
+function addDeleteBookButtonListeners() {
+  document.querySelectorAll(".delete-book-button").forEach((item) => {
+    let bookIndex = item.dataset.indexNumber;
+    item.addEventListener("click", function () {
+      deleteBook(bookIndex);
+    });
+  });
+}
+
+// add listener to all toggle read buttons
+function addToggleReadButtonListeners() {
+  document.querySelectorAll(".toggle-read-button").forEach((item) => {
+    let bookIndex = item.dataset.indexNumber;
+    item.addEventListener("click", function () {
+      toggleRead(bookIndex);
+    });
+  });
 }
 
 // DOM ready before displaying form
